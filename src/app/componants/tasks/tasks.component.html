@@ -1,0 +1,102 @@
+<div class="row mx-4">
+    <div class="col-md-6">
+        <h3>List of tasks</h3>
+    </div>
+    <div class="col-md-6 text-right">
+        <button (click)="newTaskForm()" class="btn btn-dark btn-sm">
+            <i class="fa fa-plus">
+                
+            </i>
+            New task
+        </button>
+        <button (click)="showFormNew()" class="btn btn-dark btn-sm">
+            <i class="fa fa-minus">
+        
+            </i>
+            Form
+        </button>
+        <button (click)="showSearchForm()" class="btn btn-dark btn-sm">
+            <i class="fa fa-search">
+        
+            </i>
+            Search
+        </button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6 mx-auto" *ngIf="showForm">
+        <div class="form-group">
+            <label for="label">
+            </label>
+            <input [(ngModel)]="myTask.label" id="label" type="text" class="form-control">
+        </div>
+        <div class="form-check my-2">
+            <label class="form-check-label">
+            <input [(ngModel)]="myTask.completed" type="checkbox" class="form-check-input" >
+            Completed
+            </label>
+        </div>
+        <!-- {{ myTask | json}} -->
+        <button (click)="persisteTask()" *ngIf="!editFrom" class="btn btn-success btn-block">
+            <i class="fa fa-send"></i>new task
+        </button>
+
+        <button (click)="updateTask()" *ngIf="editFrom"  class="btn btn-warning btn-block">
+            <i class="fa fa-refresh"></i>update task
+        </button>
+    </div>
+
+    <div class="col-md-6 mx-auto" *ngIf="showSearch">
+        <div class="form-group">
+            <label for="label">
+            </label>
+            <input (keyup)="search()" placeholder="Search" [(ngModel)]="searchValue" id="label" type="text" class="form-control">
+        </div>
+        
+    </div>
+</div>
+    
+
+
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <ul class="list-group">
+           
+            <li *ngFor="let task of searchResult" class="list-group-item d-flex justify-content-between align-items-center">
+
+                <button (click)="fillTask(task)" class="btn btn-warning btn-sm">
+                    <i class="fa fa-pencil">
+
+                    </i>
+                </button>
+
+                {{ task.label }}
+                <span class="badge badge-secondary badge-pill">
+                    {{ task.completed }}
+                </span>
+
+                <span [ngClass]="{
+                    'badge-info' :  task.completed,
+                    'badge-danger' : !task.completed
+                }" class="badge  badge-pill">
+                    <i (click)="toggleCompleted(task)" [ngClass]="{
+                    'fa-thumbs-up' :  task.completed,
+                    'fa-thumbs-down' : !task.completed
+                                }" class="fa" aria-hidden="true">
+                        
+                    </i>
+                </span>
+
+                <button (click)="deleteTask(task.id)" class="btn btn-danger btn-sm">
+                    <i class="fa fa-trash">
+                
+                    </i>
+                </button>
+
+                
+                
+            </li>
+           
+        </ul>
+    </div>
+</div>
